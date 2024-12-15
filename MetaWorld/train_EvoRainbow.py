@@ -18,20 +18,11 @@ os.environ['VECLIB_MAXIMUM_THREADS'] = str(cpu_num)
 os.environ['NUMEXPR_NUM_THREADS'] = str(cpu_num)
 torch.set_num_threads(cpu_num)
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="Script for running EvoRainbow with SAC")
-    parser.add_argument('--wandb_api_key', type=str, required=True, 
-                        help='Your Weights & Biases API key')
-    return parser.parse_args()
-
-if __name__ == '__main__':
-    # Parse command-line arguments
-    cli_args = parse_args()
-    os.environ["WANDB_API_KEY"] = cli_args.wandb_api_key
-    
+if __name__ == '__main__':    
     # Initialize other arguments
     args = get_args()
 
+    os.environ["WANDB_API_KEY"] = args.wandb_api_key
     # Set up experiment name
     name = (
         f"EvoRainbow_k_{args.K}_{args.EA_tau}_CEM_{args.damp}_{args.damp_limit}_"
