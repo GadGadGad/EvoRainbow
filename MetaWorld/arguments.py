@@ -50,4 +50,6 @@ def get_args():
     parse.add_argument('-damp', default=1e-3, type=float)  ### 噪声大小
     parse.add_argument('-damp_limit', default=1e-5, type=float)  ### 噪声衰减因子
     parse.add_argument('-elitism', action='store_true')  ### 保护1st精英
+    parse.add_argument('--wandb_api_key', type=str, required=True, 
+                        help='Your Weights & Biases API key')
     return parse.parse_args()
