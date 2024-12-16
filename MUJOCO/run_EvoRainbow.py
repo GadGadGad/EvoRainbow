@@ -134,7 +134,7 @@ if __name__ == "__main__":
             best_train_fitness = stats['best_train_fitness']
             erl_score = stats['test_score']
             mu_score = stats['mu_score']
-            # elite_index = stats['elite_index']
+            elite_index = stats['elite_index']
             RL_reward = stats['RL_reward']
             policy_gradient_loss = stats['pg_loss']
             behaviour_cloning_loss = stats['bc_loss']
@@ -161,9 +161,9 @@ if __name__ == "__main__":
                   ' RL Reward:', '%.2f'%RL_reward,
                   ' PG Loss:', '%.4f' % policy_gradient_loss)
     
-            # elite = agent.evolver.selection_stats['elite']/agent.evolver.selection_stats['total']
-            # selected = agent.evolver.selection_stats['selected'] / agent.evolver.selection_stats['total']
-            # discarded = agent.evolver.selection_stats['discarded'] / agent.evolver.selection_stats['total']
+            elite = agent.evolver.selection_stats['elite']/agent.evolver.selection_stats['total']
+            selected = agent.evolver.selection_stats['selected'] / agent.evolver.selection_stats['total']
+            discarded = agent.evolver.selection_stats['discarded'] / agent.evolver.selection_stats['total']
     
             print()
 
@@ -212,8 +212,8 @@ if __name__ == "__main__":
                 critic_save_name = os.path.join(save_folder, 'evo_net_critic_{}.pkl'.format(next_save))
                 buffer_save_name = os.path.join(save_folder, 'champion_buffer_{}.pkl'.format(next_save))
 
-                #torch.save(agent.pop[elite_index].actor.state_dict(), actor_save_name)
-                #torch.save(agent.rl_agent.critic.state_dict(), critic_save_name)
+                torch.save(agent.pop[elite_index].actor.state_dict(), actor_save_name)
+                torch.save(agent.rl_agent.critic.state_dict(), critic_save_name)
                 with open(buffer_save_name, 'wb+') as buffer_file:
                     pickle.dump(agent.rl_agent.buffer, buffer_file)
 
