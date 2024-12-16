@@ -1,4 +1,14 @@
-.ipynb
-__pycache__
-.pkl
-.txt
+# Ignore everything
+*
+
+# Allow .gitignore file itself
+!.gitignore
+
+# Allow Python files in subdirectories
+!*/
+
+# Allow Python files
+!*.py
+!*.yml
+!*.sh
+!*.README
