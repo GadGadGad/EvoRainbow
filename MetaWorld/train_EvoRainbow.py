@@ -1,4 +1,5 @@
 import os
+import sys
 import torch
 import wandb
 import argparse
@@ -8,7 +9,7 @@ from arguments import get_args
 from EvoRainbow_sac_agent import sac_agent
 from utils import env_wrapper
 import utils
-
+sys.path.append(os.path.abspath("/kaggle/working/EvoRainbow/MetaWorld/metaworld"))
 # Set CPU threads
 cpu_num = 1
 os.environ['OMP_NUM_THREADS'] = str(cpu_num)
