@@ -3,7 +3,7 @@ import torch
 from torch.distributions.normal import Normal
 from torch.distributions import Distribution
 from rlkit.envs.wrappers import NormalizedBoxEnv
-import metaworld.metaworld.envs.mujoco.env_dict as _env_dict
+import metaworld.envs.mujoco.env_dict as _env_dict
 from gym.wrappers.time_limit import TimeLimit
 
 def make_metaworld_env(cfg, seed):
