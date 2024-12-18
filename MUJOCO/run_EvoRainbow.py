@@ -161,9 +161,9 @@ if __name__ == "__main__":
                   ' RL Reward:', '%.2f'%RL_reward,
                   ' PG Loss:', '%.4f' % policy_gradient_loss)
     
-            elite = agent.evolver.selection_stats['elite']/agent.evolver.selection_stats['total']
-            selected = agent.evolver.selection_stats['selected'] / agent.evolver.selection_stats['total']
-            discarded = agent.evolver.selection_stats['discarded'] / agent.evolver.selection_stats['total']
+            # elite = agent.evolver.selection_stats['elite']/agent.evolver.selection_stats['total']
+            # selected = agent.evolver.selection_stats['selected'] / agent.evolver.selection_stats['total']
+            # discarded = agent.evolver.selection_stats['discarded'] / agent.evolver.selection_stats['total']
     
             print()
 
