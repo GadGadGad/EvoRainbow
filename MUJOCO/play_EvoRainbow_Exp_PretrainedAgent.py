@@ -12,7 +12,7 @@ parser.add_argument('-env', help='Environment Choices: (HalfCheetah-v2) (Ant-v2)
 parser.add_argument('-seed', help='Random seed to be used', type=int, default=7)
 parser.add_argument('-render', help='Render gym episodes', action='store_true')
 parser.add_argument('-model_path', help='Path to the model', type=str, required=True)
-parser.add_argument('-trails', help='Trials to be used', type=int, default=1)
+parser.add_argument('-trials', help='Trials to be used', type=int, default=1)
 args = parser.parse_args()
 
 
