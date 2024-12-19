@@ -1,7 +1,7 @@
 import numpy as np, os,random
-from EvoRainbow_Exp_core import mod_utils as utils
-from EvoRainbow_Exp_core.EvoRainbow_Exp_Algs import GeneticAgent
-from EvoRainbow_Exp_core.parameters import Parameters
+from EvoRainbow_core import mod_utils as utils
+from EvoRainbow_core.EvoRainbow_Algs import GeneticAgent, shared_state_embedding
+from EvoRainbow_core.parameters import Parameters
 import torch
 import gym
 import argparse
@@ -10,12 +10,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-env', help='Environment Choices: (HalfCheetah-v2) (Ant-v2) (Reacher-v2) (Walker2d-v2) ' +
                                  '(Swimmer-v2) (Hopper-v2)', required=True, type=str)
 parser.add_argument('-seed', help='Random seed to be used', type=int, default=7)
+parser.add_argument('-trials', help='Trials to be used', type=int, default=1)
 parser.add_argument('-render', help='Render gym episodes', action='store_true')
 parser.add_argument('-model_path', help='Path to the model', type=str, required=True)
+parser.add_argument('-state_embedding_path', help='Path to the state embedding share', type=str, required=True)
 args = parser.parse_args()
 
 
-def evaluate(agent, env, trials=1, render=False):
+def evaluate(agent, env, state_embedding, trials=1, render=False):
     results = []
     for trial in range(trials):
         total_reward = 0
@@ -24,7 +26,7 @@ def evaluate(agent, env, trials=1, render=False):
         done = False
         while not done:
             if render: env.render()
-            action = agent.actor.select_action(np.array(state))
+            action = agent.actor.select_action(np.array(state), state_embedding)
 
             # Simulate one step in environment
             next_state, reward, done, info = env.step(action.flatten())
@@ -38,10 +40,13 @@ def evaluate(agent, env, trials=1, render=False):
 
 def load_genetic_agent(args):
     actor_path = os.path.join(args.model_path)
+    state_embedding_path = os.path.join(args.state_embedding_path)
     agent = GeneticAgent(args)
-    agent.actor.load_state_dict(torch.load(actor_path, map_location=args.device))
+    state_embedding = shared_state_embedding(parameters)
 
-    return agent
+    agent.actor.load_state_dict(torch.load(actor_path, map_location=args.device))
+    state_embedding.load_state_dict(torch.load(state_embedding_path, map_location=args.device))
+    return agent, state_embedding
 
 
 if __name__ == "__main__":
@@ -55,10 +60,10 @@ if __name__ == "__main__":
     parameters.ls = 300
     parameters.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     setattr(parameters, 'model_path', args.model_path)
-
+    setattr(parameters, 'state_embedding_path', args.state_embedding_path)
     #Seed
     env.seed(args.seed)
     torch.manual_seed(args.seed); np.random.seed(args.seed); random.seed(args.seed)
 
-    agent = load_genetic_agent(parameters)
-    evaluate(agent, env, render=args.render)
+    agent, state_embedding = load_genetic_agent(parameters)
+    evaluate(agent, env, state_embedding=state_embedding, trials=args.trials, render=args.render)

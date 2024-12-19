@@ -4,7 +4,7 @@ import random
 import torch
 import gym
 import argparse
-from EvoRainbow_Exp_core import mod_utils as utils
+from EvoRainbow_core import mod_utils as utils
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-env', help='Environment Choices: (HalfCheetah-v2) (Ant-v2) (Reacher-v2) (Walker2d-v2) ' +
@@ -54,6 +54,6 @@ if __name__ == "__main__":
 
     # Create a RandomAgent
     agent = RandomAgent(env.action_space)
-    
+
     # Evaluate the random agent
     evaluate(agent, env, render=args.render)
