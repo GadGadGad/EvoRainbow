@@ -12,12 +12,13 @@ parser.add_argument('-env', help='Environment Choices: (HalfCheetah-v2) (Ant-v2)
 parser.add_argument('-seed', help='Random seed to be used', type=int, default=7)
 parser.add_argument('-render', help='Render gym episodes', action='store_true')
 parser.add_argument('-model_path', help='Path to the model', type=str, required=True)
+parser.add_argument('-trails', help='Trials to be used', type=int, default=1)
 args = parser.parse_args()
 
 
-def evaluate(agent, env, trials=1, render=False):
+def evaluate(agent, env, trials, render=False):
     results = []
-    for trial in range(trials):
+    for trial in range(args.trials):
         total_reward = 0
 
         state = env.reset()
@@ -61,4 +62,4 @@ if __name__ == "__main__":
     torch.manual_seed(args.seed); np.random.seed(args.seed); random.seed(args.seed)
 
     agent = load_genetic_agent(parameters)
-    evaluate(agent, env, render=args.render)
+    evaluate(agent, env, trials=args.trials, render=args.render)
